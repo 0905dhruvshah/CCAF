@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CCA-F Mock Exam — Claude Certified Architect Prep</title>
+<meta name="description" content="Timed, score-based mock exam for the CCA-F (Claude Certified Architect - Foundations) certification. Independent practice tool, not affiliated with Anthropic." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="grid-overlay" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">⌘</span>
+      <div class="brand-text">
+        <span class="brand-title">CCA-F // MOCK EXAM</span>
+        <span class="brand-sub">Claude Certified Architect — Foundations</span>
+      </div>
+    </div>
+    <div id="timer-display" class="timer hidden" role="timer" aria-live="off">
+      <span class="timer-label">TIME REMAINING</span>
+      <span class="timer-value" id="timer-value">02:00:00</span>
+    </div>
+  </div>
+</header>
+
+<main id="app">
+
+  <!-- ============ SCREEN: HOME ============ -->
+  <section id="screen-home" class="screen active">
+    <div class="container">
+
+      <div class="hero">
+        <p class="eyebrow">INDEPENDENT PRACTICE TOOL — NOT AFFILIATED WITH ANTHROPIC</p>
+        <h1>Blueprint your way to a pass.</h1>
+        <p class="hero-copy">60 scenario-based questions, domain-weighted exactly like the real exam, a 120-minute clock, and a scaled 100–1000 score with a 720 pass line. Everything runs locally in your browser — nothing is sent anywhere.</p>
+      </div>
+
+      <div class="panel-grid">
+        <div class="panel spec-panel">
+          <div class="panel-header">
+            <span class="panel-index">01</span>
+            <h2>Exam specification</h2>
+          </div>
+          <table class="spec-table">
+            <tr><td>Questions</td><td>60</td></tr>
+            <tr><td>Time limit</td><td>120 minutes</td></tr>
+            <tr><td>Scoring</td><td>Scaled, 100–1000</td></tr>
+            <tr><td>Passing score</td><td>720 / 1000</td></tr>
+            <tr><td>Question format</td><td>Single-answer, 4 options</td></tr>
+          </table>
+        </div>
+
+        <div class="panel domain-panel">
+          <div class="panel-header">
+            <span class="panel-index">02</span>
+            <h2>Domain weighting</h2>
+          </div>
+          <div id="domain-weight-list" class="domain-weight-list"></div>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <button id="btn-start-full" class="btn btn-primary">
+          <span class="btn-label">Start full mock exam</span>
+          <span class="btn-meta">60 questions · 120:00 clock</span>
+        </button>
+        <button id="btn-start-practice" class="btn btn-secondary">
+          <span class="btn-label">Practice one domain</span>
+          <span class="btn-meta">Untimed · instant feedback</span>
+        </button>
+      </div>
+
+      <div id="resume-banner" class="resume-banner hidden">
+        <p>You have an exam in progress — question <span id="resume-q">1</span> of 60, <span id="resume-time">--:--:--</span> left on the clock.</p>
+        <div class="resume-actions">
+          <button id="btn-resume" class="btn btn-small btn-primary">Resume exam</button>
+          <button id="btn-discard" class="btn btn-small btn-ghost">Discard &amp; start over</button>
+        </div>
+      </div>
+
+      <div id="history-panel" class="panel history-panel hidden">
+        <div class="panel-header">
+          <span class="panel-index">03</span>
+          <h2>Your past attempts</h2>
+        </div>
+        <div id="history-list" class="history-list"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SCREEN: DOMAIN SELECT ============ -->
+  <section id="screen-domain-select" class="screen">
+    <div class="container narrow">
+      <button class="back-link" data-back="screen-home">&larr; back</button>
+      <h2 class="section-title">Choose a domain to drill</h2>
+      <p class="section-copy">Untimed. You'll see the correct answer and explanation immediately after each question.</p>
+      <div id="domain-select-list" class="domain-select-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN: EXAM ============ -->
+  <section id="screen-exam" class="screen">
+    <div class="container">
+
+      <div class="exam-topline">
+        <div class="progress-block">
+          <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+          <span id="progress-text" class="progress-text">Question 1 of 60</span>
+        </div>
+        <span id="domain-tag" class="domain-tag">Agentic Architecture</span>
+      </div>
+
+      <div class="question-card">
+        <p id="question-text" class="question-text"></p>
+        <div id="options-list" class="options-list"></div>
+        <div id="feedback-block" class="feedback-block hidden">
+          <p id="feedback-verdict" class="feedback-verdict"></p>
+          <p id="feedback-explanation" class="feedback-explanation"></p>
+        </div>
+      </div>
+
+      <div class="exam-nav">
+        <button id="btn-prev" class="btn btn-ghost">&larr; Previous</button>
+        <button id="btn-flag" class="btn btn-ghost">Flag for review</button>
+        <button id="btn-next" class="btn btn-primary">Next &rarr;</button>
+        <button id="btn-submit" class="btn btn-danger hidden">Submit exam</button>
+      </div>
+
+      <button id="btn-jump-toggle" class="jump-toggle">Question map</button>
+      <div id="jump-grid" class="jump-grid hidden"></div>
+
+    </div>
+  </section>
+
+  <!-- ============ SCREEN: CONFIRM SUBMIT ============ -->
+  <section id="screen-confirm" class="screen">
+    <div class="container narrow">
+      <div class="panel confirm-panel">
+        <div class="panel-header">
+          <span class="panel-index">!</span>
+          <h2>Submit exam?</h2>
+        </div>
+        <p id="confirm-copy" class="section-copy"></p>
+        <div class="cta-row">
+          <button id="btn-confirm-submit" class="btn btn-primary">Yes, submit &amp; score</button>
+          <button id="btn-confirm-back" class="btn btn-ghost">Go back</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN: RESULTS ============ -->
+  <section id="screen-results" class="screen">
+    <div class="container">
+
+      <div id="verdict-banner" class="verdict-banner">
+        <span id="verdict-word" class="verdict-word">PASS</span>
+        <div class="verdict-score">
+          <span id="score-value" class="score-value">000</span>
+          <span class="score-max">/ 1000</span>
+        </div>
+        <span class="verdict-note">Pass threshold: 720 / 1000</span>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-index">04</span>
+          <h2>Score by domain</h2>
+        </div>
+        <div id="domain-results" class="domain-results"></div>
+      </div>
+
+      <div class="cta-row">
+        <button id="btn-review" class="btn btn-secondary">Review every question</button>
+        <button id="btn-retake" class="btn btn-primary">Take another exam</button>
+      </div>
+
+      <div id="review-panel" class="panel review-panel hidden">
+        <div class="panel-header">
+          <span class="panel-index">05</span>
+          <h2>Full review</h2>
+        </div>
+        <div id="review-list" class="review-list"></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Independent, community-built practice tool. Not affiliated with, endorsed by, or sponsored by Anthropic. All data stays in your browser (localStorage) — nothing is transmitted to a server.</p>
+</footer>
+
+<script src="questions.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
